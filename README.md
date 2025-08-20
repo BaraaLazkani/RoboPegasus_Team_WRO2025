@@ -235,7 +235,7 @@ Ackermann Steering is a geometric arrangement of linkages in the steering system
 - The Ackermann steering geometry links the steering arms such that the front wheels pivot about different angles, aligning with their respective turning circles.
 - This prevents tire scrubbing, reduces wear, and improves handling and safety.
 <p align="center"> 
-  <img src="other\images\Ackermann_Steering_2.png" alt="original_vs_custom_comparison" width="50%"> 
+  <img src="other/images/Ackermann_Steering_2.PNG" alt="original_vs_custom_comparison" width="50%"> 
 </p>
 
 ### Main Purpose:
