@@ -575,47 +575,45 @@ The first iteration, while representing significant effort and engineering work,
 
 Learning from these challenges, we embarked on a complete redesign that addressed every identified issue while incorporating new innovations and improvements. The result is a robot that represents our vision of engineering excellence realized.
 
-<table align="center">
+<table>
   <tr>
-    <td></td>
-    <td align="center">
-      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Front View.png" width="150" alt="Front View"><br>
-      <b>Front View</b>
+    <td rowspan="2" align="center" style="border: 3px solid #00bcd4; background: #f0f8ff; padding: 15px;">
+      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Isometric View.png" 
+           width="300" height="300" alt="Isometric View"><br>
+      <strong style="color: #00bcd4; font-size: 18px;">🎯 Isometric View</strong>
     </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Top View.png" width="150" alt="Top View"><br>
-      <b>Top View</b>
+    <td align="center" style="padding: 10px;">
+      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Front View.png" 
+           width="180" height="180" alt="Front View"><br>
+      <strong>Front View</strong>
     </td>
-    <td align="center">
-      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Isometric View.png" width="200" alt="Isometric View" style="border: 2px solid #00bcd4;"><br>
-      <b>🎯 Isometric View</b>
+    <td align="center" style="padding: 10px;">
+      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Right View.png" 
+           width="180" height="180" alt="Right View"><br>
+      <strong>Right View</strong>
     </td>
-    <td align="center">
-      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Bottom View.png" width="150" alt="Bottom View"><br>
-      <b>Bottom View</b>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Left View.png" width="150" alt="Left View"><br>
-      <b>Left View</b>
-    </td>
-    <td></td>
-    <td align="center">
-      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Right View.png" width="150" alt="Right View"><br>
-      <b>Right View</b>
+    <td align="center" style="padding: 10px;">
+      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Back View.png" 
+           width="180" height="180" alt="Back View"><br>
+      <strong>Back View</strong>
     </td>
   </tr>
   <tr>
-    <td></td>
-    <td align="center">
-      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Back View.png" width="150" alt="Back View"><br>
-      <b>Back View</b>
+    <td align="center" style="padding: 10px;">
+      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Top View.png" 
+           width="180" height="180" alt="Top View"><br>
+      <strong>Top View</strong>
     </td>
-    <td></td>
+    <td align="center" style="padding: 10px;">
+      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Left View.png" 
+           width="180" height="180" alt="Left View"><br>
+      <strong>Left View</strong>
+    </td>
+    <td align="center" style="padding: 10px;">
+      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Bottom View.png" 
+           width="180" height="180" alt="Bottom View"><br>
+      <strong>Bottom View</strong>
+    </td>
   </tr>
 </table>
 
