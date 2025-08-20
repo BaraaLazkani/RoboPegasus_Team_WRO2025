@@ -235,7 +235,7 @@ Ackermann Steering is a geometric arrangement of linkages in the steering system
 - The Ackermann steering geometry links the steering arms such that the front wheels pivot about different angles, aligning with their respective turning circles.
 - This prevents tire scrubbing, reduces wear, and improves handling and safety.
 <p align="center"> 
-  <img src="other\images\Ackermann_Steering_2.png" alt="original_vs_custom_comparison" width="50%"> 
+  <img src="other/images/Ackermann_Steering_2.PNG" alt="original_vs_custom_comparison" width="50%"> 
 </p>
 
 ### Main Purpose:
@@ -502,7 +502,7 @@ The following images demonstrate the significant dimensional differences between
 </p>
 
 <p align="center"> 
-  <img src="other\images\Ackermann_Steering_4.png" alt="custom_ackermann_plate" width="50%"> 
+  <img src="other/images/Ackermann_Steering_4.PNG" alt="custom_ackermann_plate" width="50%"> 
 </p>
 
 
@@ -575,67 +575,47 @@ The first iteration, while representing significant effort and engineering work,
 
 Learning from these challenges, we embarked on a complete redesign that addressed every identified issue while incorporating new innovations and improvements. The result is a robot that represents our vision of engineering excellence realized.
 
-### Complete Structural Redesign
-
-<div style="position: relative; width: 900px; height: 800px; margin: 0 auto; background: #1a1a1a; border-radius: 20px; padding: 20px;">
-  
-  <!-- Center - Isometric View -->
-  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10;">
-    <img src="v-photos\Second_Generation_Robot (Used in Competition)\Real Robot\Isometric View.png" 
-         alt="Isometric View" width="320" height="320" 
-         style="border: 3px solid #00bcd4; border-radius: 15px; background: #2a2a2a; box-shadow: 0 10px 20px rgba(0,188,212,0.3);">
-    <div style="text-align: center; font-weight: bold; margin-top: 15px; color: #00bcd4; font-size: 16px;">Isometric View</div>
-  </div>
-  
-  <!-- Top - Front View -->
-  <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%);">
-    <img src="v-photos\Second_Generation_Robot (Used in Competition)\Real Robot\Front View.png" 
-         alt="Front View" width="180" height="180" 
-         style="border: 2px solid #555; border-radius: 12px; background: #2a2a2a; box-shadow: 0 5px 15px rgba(0,0,0,0.4);">
-    <div style="text-align: center; font-weight: bold; margin-top: 8px; color: #ccc; font-size: 14px;">Front View</div>
-  </div>
-  
-  <!-- Top Right - Right View -->
-  <div style="position: absolute; top: 140px; right: 80px;">
-    <img src="v-photos\Second_Generation_Robot (Used in Competition)\Real Robot\Right View.png" 
-         alt="Right View" width="180" height="180" 
-         style="border: 2px solid #555; border-radius: 12px; background: #2a2a2a; box-shadow: 0 5px 15px rgba(0,0,0,0.4);">
-    <div style="text-align: center; font-weight: bold; margin-top: 8px; color: #ccc; font-size: 14px;">Right View</div>
-  </div>
-  
-  <!-- Bottom Right - Back View -->
-  <div style="position: absolute; bottom: 140px; right: 80px;">
-    <img src="v-photos\Second_Generation_Robot (Used in Competition)\Real Robot\Back View.png" 
-         alt="Back View" width="180" height="180" 
-         style="border: 2px solid #555; border-radius: 12px; background: #2a2a2a; box-shadow: 0 5px 15px rgba(0,0,0,0.4);">
-    <div style="text-align: center; font-weight: bold; margin-top: 8px; color: #ccc; font-size: 14px;">Back View</div>
-  </div>
-  
-  <!-- Bottom - Bottom View -->
-  <div style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);">
-    <img src="v-photos\Second_Generation_Robot (Used in Competition)\Real Robot\Bottom View.png" 
-         alt="Bottom View" width="180" height="180" 
-         style="border: 2px solid #555; border-radius: 12px; background: #2a2a2a; box-shadow: 0 5px 15px rgba(0,0,0,0.4);">
-    <div style="text-align: center; font-weight: bold; margin-top: 8px; color: #ccc; font-size: 14px;">Bottom View</div>
-  </div>
-  
-  <!-- Bottom Left - Left View -->
-  <div style="position: absolute; bottom: 140px; left: 80px;">
-    <img src="v-photos\Second_Generation_Robot (Used in Competition)\Real Robot\Left View.png" 
-         alt="Left View" width="180" height="180" 
-         style="border: 2px solid #555; border-radius: 12px; background: #2a2a2a; box-shadow: 0 5px 15px rgba(0,0,0,0.4);">
-    <div style="text-align: center; font-weight: bold; margin-top: 8px; color: #ccc; font-size: 14px;">Left View</div>
-  </div>
-  
-  <!-- Top Left - Top View -->
-  <div style="position: absolute; top: 140px; left: 80px;">
-    <img src="v-photos\Second_Generation_Robot (Used in Competition)\Real Robot\Top View.png" 
-         alt="Top View" width="180" height="180" 
-         style="border: 2px solid #555; border-radius: 12px; background: #2a2a2a; box-shadow: 0 5px 15px rgba(0,0,0,0.4);">
-    <div style="text-align: center; font-weight: bold; margin-top: 8px; color: #ccc; font-size: 14px;">Top View</div>
-  </div>
-  
-</div>
+<table>
+  <tr>
+    <td rowspan="2" align="center" style="border: 3px solid #00bcd4; background: #f0f8ff; padding: 15px;">
+      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Isometric View.png" 
+           width="300" height="300" alt="Isometric View"><br>
+      <strong style="color: #00bcd4; font-size: 18px;">🎯 Isometric View</strong>
+    </td>
+    <td align="center" style="padding: 10px;">
+      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Front View.png" 
+           width="180" height="180" alt="Front View"><br>
+      <strong>Front View</strong>
+    </td>
+    <td align="center" style="padding: 10px;">
+      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Right View.png" 
+           width="180" height="180" alt="Right View"><br>
+      <strong>Right View</strong>
+    </td>
+    <td align="center" style="padding: 10px;">
+      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Back View.png" 
+           width="180" height="180" alt="Back View"><br>
+      <strong>Back View</strong>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" style="padding: 10px;">
+      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Top View.png" 
+           width="180" height="180" alt="Top View"><br>
+      <strong>Top View</strong>
+    </td>
+    <td align="center" style="padding: 10px;">
+      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Left View.png" 
+           width="180" height="180" alt="Left View"><br>
+      <strong>Left View</strong>
+    </td>
+    <td align="center" style="padding: 10px;">
+      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Bottom View.png" 
+           width="180" height="180" alt="Bottom View"><br>
+      <strong>Bottom View</strong>
+    </td>
+  </tr>
+</table>
 
 
 
@@ -1018,10 +998,16 @@ The 50C continuous discharge rate of our Li-Poly battery (110A maximum) provides
 **Comparison with First Generation:**
 The transformation from our chaotic first-generation wiring to the organized second-generation PMS demonstrates the critical importance of proper electrical architecture in robotics applications. The star topology eliminated the "wire spaghetti" syndrome while improving system reliability and maintainability.
 
-<p align="center"> 
- <img src="v-photos\First_Generation_Robot (Not Used)\1.jpg" alt="First vs Second Generation Wiring Comparison" width="40%" height="250" style="vertical-align: middle;">
-<img src="v-photos\Second_Generation_Robot (Used in Competition)\Real Robot\Left View.png" alt="First vs Second Generation Wiring Comparison" width="40%" height="500" style="vertical-align: middle;"> 
-</p>
+<table align="center">
+  <tr>
+    <td style="vertical-align: middle; text-align: center;">
+      <img src="v-photos\\First_Generation_Robot (Not Used)\\1.jpg" alt="First Generation Robot" width="300" height="250">
+    </td>
+    <td style="vertical-align: middle; text-align: center;">
+      <img src="v-photos\\Second_Generation_Robot (Used in Competition)\\Real Robot\\Left View.png" alt="Second Generation Robot" width="300" height="500">
+    </td>
+  </tr>
+</table>
 
 ## Sensor Integration and Selection Rationale
 
@@ -1776,7 +1762,7 @@ The system recognizes four distinct pillar configurations based on detected colo
 
 <p align="center"> 
 <img src="other\images\Camera-Photos\GR.png" alt="GR" width="40%" height="300">
-<img src="other\images\Camera-Photos\GR-Mask.png" alt="GR" width="40%"height="300">
+<img src="other/images/Camera-Photos/GR-MAsk.png" alt="GR" width="40%"height="300">
 </p>
 
 #### Case 3: Red-Red (RR) Configuration
