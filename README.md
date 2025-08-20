@@ -1762,7 +1762,7 @@ The system recognizes four distinct pillar configurations based on detected colo
 
 <p align="center"> 
 <img src="other\images\Camera-Photos\GR.png" alt="GR" width="40%" height="300">
-<img src="other\images\Camera-Photos\GR-Mask.png" alt="GR" width="40%"height="300">
+<img src="other/images/Camera-Photos/GR-MAsk.png" alt="GR" width="40%"height="300">
 </p>
 
 #### Case 3: Red-Red (RR) Configuration
