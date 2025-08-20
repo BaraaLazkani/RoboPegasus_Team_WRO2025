@@ -998,10 +998,16 @@ The 50C continuous discharge rate of our Li-Poly battery (110A maximum) provides
 **Comparison with First Generation:**
 The transformation from our chaotic first-generation wiring to the organized second-generation PMS demonstrates the critical importance of proper electrical architecture in robotics applications. The star topology eliminated the "wire spaghetti" syndrome while improving system reliability and maintainability.
 
-<p align="center"> 
- <img src="v-photos\First_Generation_Robot (Not Used)\1.jpg" alt="First vs Second Generation Wiring Comparison" width="40%" height="250" style="vertical-align: middle;">
-<img src="v-photos\Second_Generation_Robot (Used in Competition)\Real Robot\Left View.png" alt="First vs Second Generation Wiring Comparison" width="40%" height="500" style="vertical-align: middle;"> 
-</p>
+<table align="center">
+  <tr>
+    <td style="vertical-align: middle; text-align: center;">
+      <img src="v-photos\\First_Generation_Robot (Not Used)\\1.jpg" alt="First Generation Robot" width="300" height="250">
+    </td>
+    <td style="vertical-align: middle; text-align: center;">
+      <img src="v-photos\\Second_Generation_Robot (Used in Competition)\\Real Robot\\Left View.png" alt="Second Generation Robot" width="300" height="500">
+    </td>
+  </tr>
+</table>
 
 ## Sensor Integration and Selection Rationale
 
