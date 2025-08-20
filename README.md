@@ -1650,7 +1650,7 @@ This strategy is used when the robot approaches the parking lot from the front, 
 
 **The Following is a gif file that illustrates our parking algorithm:**
 <p align="center"> 
- <img src="other\gif files\Parking-Obstacle-challenge.gif" alt="Parking"> 
+ <img src="other/gif files/Parking-Obstacle-challenge.gif" alt="Parking"> 
 </p>
 
 #### Backward Parking:
