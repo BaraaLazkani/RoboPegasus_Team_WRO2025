@@ -502,7 +502,7 @@ The following images demonstrate the significant dimensional differences between
 </p>
 
 <p align="center"> 
-  <img src="other\images\Ackermann_Steering_4.png" alt="custom_ackermann_plate" width="50%"> 
+  <img src="other/images/Ackermann_Steering_4.png" alt="custom_ackermann_plate" width="50%"> 
 </p>
 
 
