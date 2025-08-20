@@ -575,67 +575,49 @@ The first iteration, while representing significant effort and engineering work,
 
 Learning from these challenges, we embarked on a complete redesign that addressed every identified issue while incorporating new innovations and improvements. The result is a robot that represents our vision of engineering excellence realized.
 
-### Complete Structural Redesign
-
-<div style="position: relative; width: 900px; height: 800px; margin: 0 auto; background: #1a1a1a; border-radius: 20px; padding: 20px;">
-  
-  <!-- Center - Isometric View -->
-  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10;">
-    <img src="v-photos\Second_Generation_Robot (Used in Competition)\Real Robot\Isometric View.png" 
-         alt="Isometric View" width="320" height="320" 
-         style="border: 3px solid #00bcd4; border-radius: 15px; background: #2a2a2a; box-shadow: 0 10px 20px rgba(0,188,212,0.3);">
-    <div style="text-align: center; font-weight: bold; margin-top: 15px; color: #00bcd4; font-size: 16px;">Isometric View</div>
-  </div>
-  
-  <!-- Top - Front View -->
-  <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%);">
-    <img src="v-photos\Second_Generation_Robot (Used in Competition)\Real Robot\Front View.png" 
-         alt="Front View" width="180" height="180" 
-         style="border: 2px solid #555; border-radius: 12px; background: #2a2a2a; box-shadow: 0 5px 15px rgba(0,0,0,0.4);">
-    <div style="text-align: center; font-weight: bold; margin-top: 8px; color: #ccc; font-size: 14px;">Front View</div>
-  </div>
-  
-  <!-- Top Right - Right View -->
-  <div style="position: absolute; top: 140px; right: 80px;">
-    <img src="v-photos\Second_Generation_Robot (Used in Competition)\Real Robot\Right View.png" 
-         alt="Right View" width="180" height="180" 
-         style="border: 2px solid #555; border-radius: 12px; background: #2a2a2a; box-shadow: 0 5px 15px rgba(0,0,0,0.4);">
-    <div style="text-align: center; font-weight: bold; margin-top: 8px; color: #ccc; font-size: 14px;">Right View</div>
-  </div>
-  
-  <!-- Bottom Right - Back View -->
-  <div style="position: absolute; bottom: 140px; right: 80px;">
-    <img src="v-photos\Second_Generation_Robot (Used in Competition)\Real Robot\Back View.png" 
-         alt="Back View" width="180" height="180" 
-         style="border: 2px solid #555; border-radius: 12px; background: #2a2a2a; box-shadow: 0 5px 15px rgba(0,0,0,0.4);">
-    <div style="text-align: center; font-weight: bold; margin-top: 8px; color: #ccc; font-size: 14px;">Back View</div>
-  </div>
-  
-  <!-- Bottom - Bottom View -->
-  <div style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);">
-    <img src="v-photos\Second_Generation_Robot (Used in Competition)\Real Robot\Bottom View.png" 
-         alt="Bottom View" width="180" height="180" 
-         style="border: 2px solid #555; border-radius: 12px; background: #2a2a2a; box-shadow: 0 5px 15px rgba(0,0,0,0.4);">
-    <div style="text-align: center; font-weight: bold; margin-top: 8px; color: #ccc; font-size: 14px;">Bottom View</div>
-  </div>
-  
-  <!-- Bottom Left - Left View -->
-  <div style="position: absolute; bottom: 140px; left: 80px;">
-    <img src="v-photos\Second_Generation_Robot (Used in Competition)\Real Robot\Left View.png" 
-         alt="Left View" width="180" height="180" 
-         style="border: 2px solid #555; border-radius: 12px; background: #2a2a2a; box-shadow: 0 5px 15px rgba(0,0,0,0.4);">
-    <div style="text-align: center; font-weight: bold; margin-top: 8px; color: #ccc; font-size: 14px;">Left View</div>
-  </div>
-  
-  <!-- Top Left - Top View -->
-  <div style="position: absolute; top: 140px; left: 80px;">
-    <img src="v-photos\Second_Generation_Robot (Used in Competition)\Real Robot\Top View.png" 
-         alt="Top View" width="180" height="180" 
-         style="border: 2px solid #555; border-radius: 12px; background: #2a2a2a; box-shadow: 0 5px 15px rgba(0,0,0,0.4);">
-    <div style="text-align: center; font-weight: bold; margin-top: 8px; color: #ccc; font-size: 14px;">Top View</div>
-  </div>
-  
-</div>
+<table align="center">
+  <tr>
+    <td></td>
+    <td align="center">
+      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Front View.png" width="150" alt="Front View"><br>
+      <b>Front View</b>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Top View.png" width="150" alt="Top View"><br>
+      <b>Top View</b>
+    </td>
+    <td align="center">
+      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Isometric View.png" width="200" alt="Isometric View" style="border: 2px solid #00bcd4;"><br>
+      <b>🎯 Isometric View</b>
+    </td>
+    <td align="center">
+      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Bottom View.png" width="150" alt="Bottom View"><br>
+      <b>Bottom View</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Left View.png" width="150" alt="Left View"><br>
+      <b>Left View</b>
+    </td>
+    <td></td>
+    <td align="center">
+      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Right View.png" width="150" alt="Right View"><br>
+      <b>Right View</b>
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td align="center">
+      <img src="v-photos/Second_Generation_Robot (Used in Competition)/Real Robot/Back View.png" width="150" alt="Back View"><br>
+      <b>Back View</b>
+    </td>
+    <td></td>
+  </tr>
+</table>
 
 
 
