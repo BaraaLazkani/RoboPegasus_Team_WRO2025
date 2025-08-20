@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot Assembly Instructions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .parts-overview {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 2em;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .parts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .part-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .part-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-color: #3498db;
+        }
+
+        .part-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .part-number {
+            background: #3498db;
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .part-description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .part-specs {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 5px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .spec-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .spec-value {
+            color: #666;
+        }
+
+        .assembly-steps {
+            margin-top: 50px;
+        }
+
+        .step {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border-left: 5px solid #3498db;
+        }
+
+        .step-header {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .step-number {
+            background: #3498db;
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .step-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .step-content {
+            padding: 30px;
+        }
+
+        .step-description {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #fdcb6e, #e17055);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .tools-required {
+            background: #f1f2f6;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .tools-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tools-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .tool-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .final-assembly {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .final-title {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .component-highlight {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            color: #2d3436;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 2px;
+        }
+
+        .assembly-animation {
+            text-align: center;
+            font-size: 3em;
+            margin: 20px 0;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Robot Assembly Guide</h1>
+            <p>Step-by-step instructions for building your precision robotics system</p>
+        </div>
+
+        <div class="content">
+            <!-- Parts Overview -->
+            <section class="parts-overview">
+                <h2 class="section-title">
+                    📦 Parts Identification
+                </h2>
+
+                <div class="parts-grid">
+                    <div class="part-card">
+                        <div class="part-title">
+                            <div class="part-number">1</div>
+                            Differential Gear Assembly
+                        </div>
+                        <div class="part-description">
+                            Complex planetary gear system with internal differential mechanism. Features precision-machined gears for smooth power distribution between output shafts.
+                        </div>
+                        <div class="part-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Function:</span>
+                                <span class="spec-value">Power Distribution</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Material:</span>
+                                <span class="spec-value">Aluminum Alloy</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Key Feature:</span>
+                                <span class="spec-value">Planetary Gear System</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="part-card">
+                        <div class="part-title">
+                            <div class="part-number">2</div>
+                            Main Drive Shaft
+                        </div>
+                        <div class="part-description">
+                            Precision-turned shaft with integrated mounting flanges and hexagonal drive interface. Designed for high torque transmission.
+                        </div>
+                        <div class="part-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Function:</span>
+                                <span class="spec-value">Power Transmission</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Interface:</span>
+                                <span class="spec-value">Hexagonal Drive</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Bearings:</span>
+                                <span class="spec-value">Integrated Flanges</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="part-card">
+                        <div class="part-title">
+                            <div class="part-number">3</div>
+                            Motor Mount Assembly
+                        </div>
+                        <div class="part-description">
+                            L-shaped mounting bracket with integrated motor housing. Features precision alignment holes and reinforced construction.
+                        </div>
+                        <div class="part-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Function:</span>
+                                <span class="spec-value">Motor Support</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Design:</span>
+                                <span class="spec-value">L-Bracket Configuration</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Features:</span>
+                                <span class="spec-value">Precision Holes</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="part-card">
+                        <div class="part-title">
+                            <div class="part-number">4</div>
+                            Base Plate (Plexi)
+                        </div>
+                        <div class="part-description">
+                            Multi-hole mounting plate providing flexible component positioning. Strategic hole pattern allows for various configurations.
+                        </div>
+                        <div class="part-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Function:</span>
+                                <span class="spec-value">Main Chassis</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Material:</span>
+                                <span class="spec-value">Acrylic (Plexi)</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Pattern:</span>
+                                <span class="spec-value">Multi-Hole Grid</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="part-card">
+                        <div class="part-title">
+                            <div class="part-number">5</div>
+                            Shaft Bearing Block
+                        </div>
+                        <div class="part-description">
+                            Precision bearing housing with mounting tabs. Provides stable rotational support for drive shafts.
+                        </div>
+                        <div class="part-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Function:</span>
+                                <span class="spec-value">Shaft Support</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Design:</span>
+                                <span class="spec-value">Bearing Housing</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Mounting:</span>
+                                <span class="spec-value">Bolt-Down Tabs</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="part-card">
+                        <div class="part-title">
+                            <div class="part-number">6</div>
+                            Structural Rail
+                        </div>
+                        <div class="part-description">
+                            Aluminum extrusion rail for structural support and component mounting. Provides rigid framework connection.
+                        </div>
+                        <div class="part-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Function:</span>
+                                <span class="spec-value">Structural Support</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Profile:</span>
+                                <span class="spec-value">T-Slot Extrusion</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">End Cap:</span>
+                                <span class="spec-value">Threaded Insert</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="part-card">
+                        <div class="part-title">
+                            <div class="part-number">7</div>
+                            Motor Housing
+                        </div>
+                        <div class="part-description">
+                            Cylindrical motor enclosure with integrated mounting flange. Provides protection and precise motor positioning.
+                        </div>
+                        <div class="part-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Function:</span>
+                                <span class="spec-value">Motor Protection</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Material:</span>
+                                <span class="spec-value">Anodized Aluminum</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Mounting:</span>
+                                <span class="spec-value">4-Bolt Flange</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tools Required -->
+            <div class="tools-required">
+                <div class="tools-title">
+                    🔧 Tools Required
+                </div>
+                <div class="tools-list">
+                    <div class="tool-item">🔩 Allen Key Set</div>
+                    <div class="tool-item">🔧 Adjustable Wrench</div>
+                    <div class="tool-item">📐 Square/Level</div>
+                    <div class="tool-item">📏 Precision Ruler</div>
+                </div>
+            </div>
+
+            <!-- Assembly Steps -->
+            <section class="assembly-steps">
+                <h2 class="section-title">
+                    🔨 Assembly Instructions
+                </h2>
+
+                <div class="step">
+                    <div class="step-header">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Prepare the Base Plate</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            Start by positioning the <span class="component-highlight">Base Plate (Plexi)</span> on a clean, flat work surface. This perforated plate will serve as the main chassis for your robot assembly. The strategic hole pattern allows for precise component positioning.
+                        </div>
+                        <div class="tip-box">
+                            💡 <strong>Pro Tip:</strong> Orient the base plate so the larger hole clusters are positioned where you'll mount the heavier components (motor and differential assembly).
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Install Motor Housing</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            Mount the <span class="component-highlight">Motor Housing</span> to the base plate using the 4-bolt flange pattern. Ensure the motor shaft opening is properly aligned with your drive system layout. The red anodized finish indicates the motor mounting side.
+                        </div>
+                        <div class="warning-box">
+                            ⚠️ <strong>Critical:</strong> Verify motor housing orientation before final tightening. The motor output shaft must align with the differential input.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Position Differential Assembly</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            Install the <span class="component-highlight">Differential Gear Assembly</span> in the designated position on the base plate. This complex planetary gear system requires precise alignment with both the motor output and the main drive shaft.
+                        </div>
+                        <div class="tip-box">
+                            💡 <strong>Assembly Tip:</strong> The differential housing contains delicate internal gears. Handle with care and avoid applying excessive force during positioning.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header">
+                        <div class="step-number">4</div>
+                        <div class="step-title">Install Drive Shaft System</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            Insert the <span class="component-highlight">Main Drive Shaft</span> through the differential assembly. The hexagonal interface end connects to the motor coupling, while the opposite end extends to the output mechanism. Ensure smooth rotation without binding.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header">
+                        <div class="step-number">5</div>
+                        <div class="step-title">Add Bearing Support</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            Mount the <span class="component-highlight">Shaft Bearing Block</span> to provide additional support for the drive shaft. This precision bearing housing eliminates shaft deflection and ensures smooth operation under load.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header">
+                        <div class="step-number">6</div>
+                        <div class="step-title">Install Motor Mount</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            Attach the <span class="component-highlight">Motor Mount Assembly</span> to the system. This L-shaped bracket provides rigid motor support and precise alignment with the drive train. The integrated housing ensures proper motor positioning.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header">
+                        <div class="step-number">7</div>
+                        <div class="step-title">Add Structural Rail</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            Install the <span class="component-highlight">Structural Rail</span> to provide additional framework rigidity. This aluminum extrusion connects key mounting points and prevents flex during operation. The threaded end cap allows for fine positioning adjustments.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-header">
+                        <div class="step-number">8</div>
+                        <div class="step-title">Final System Integration</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-description">
+                            Complete the assembly by verifying all connections, checking shaft alignment, and ensuring smooth operation of the differential mechanism. Test rotate all moving parts by hand to confirm proper assembly.
+                        </div>
+                        <div class="tip-box">
+                            ✅ <strong>Quality Check:</strong> All shafts should rotate smoothly without binding. The differential should operate freely, and motor housing should be rigidly mounted.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Final Assembly -->
+            <div class="final-assembly">
+                <div class="assembly-animation">🎉</div>
+                <div class="final-title">Assembly Complete!</div>
+                <p>Your precision robotics drive system is now ready for integration with your robot platform. The combined Ackermann steering and differential gear system will provide superior control and maneuverability.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

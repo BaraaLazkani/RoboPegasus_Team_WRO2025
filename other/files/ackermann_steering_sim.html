@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exact Ackermann Steering Mechanism</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0f0f23, #1a1a3e);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+        
+        #container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        
+        #controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            color: white;
+            z-index: 100;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .control-group {
+            margin-bottom: 20px;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #00d4ff;
+        }
+        
+        button {
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            border: none;
+            color: white;
+            padding: 10px 18px;
+            margin: 3px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+        }
+        
+        button.active {
+            background: linear-gradient(45deg, #ff4757, #ff3838);
+        }
+        
+        input[type="range"] {
+            width: 180px;
+            margin: 8px 0;
+            accent-color: #00d4ff;
+        }
+        
+        #steeringValue {
+            color: #00d4ff;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        #info {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px;
+            border-radius: 12px;
+            color: white;
+            font-size: 12px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .angle-display {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px;
+            border-radius: 12px;
+            color: white;
+            font-family: monospace;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .angle-value {
+            color: #00d4ff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+    
+    <div id="controls">
+        <div class="control-group">
+            <label>Servo Control</label>
+            <input type="range" id="steeringSlider" min="-45" max="45" step="1" value="0" oninput="updateSteering(this.value)">
+            <div id="steeringValue">Servo: 0°</div>
+        </div>
+        
+        <div class="control-group">
+            <label>Preset Actions</label>
+            <button onclick="steerLeft()">Full Left</button>
+            <button onclick="steerRight()">Full Right</button>
+            <button onclick="straighten()">Center</button>
+        </div>
+        
+        <div class="control-group">
+            <label>Animation</label>
+            <button id="autoBtn" onclick="toggleAutoSteering()">Auto Demo</button>
+            <button onclick="resetView()">Reset View</button>
+        </div>
+    </div>
+    
+    <div class="angle-display">
+        <div><strong>Steering Angles</strong></div>
+        <div>Servo Angle: <span class="angle-value" id="servoAngle">0°</span></div>
+        <div>Left Wheel: <span class="angle-value" id="leftAngle">0°</span></div>
+        <div>Right Wheel: <span class="angle-value" id="rightAngle">0°</span></div>
+    </div>
+    
+    <div id="info">
+        <strong>LD-1501MG Servo Ackermann Steering</strong><br>
+        • Exact mechanism from your robot platform<br>
+        • Single servo drives both wheels via linkage<br>
+        • Mouse: Rotate | Wheel: Zoom<br>
+        • Servo range: ±45°
+    </div>
+
+    <script>
+        let scene, camera, renderer;
+        let steeringAssembly;
+        let servo, servoArm, leftWheel, rightWheel;
+        let leftSteering, rightSteering, centerLink;
+        let leftLinkage, rightLinkage;
+        let currentServoAngle = 0;
+        let autoSteering = false;
+        
+        // Physical dimensions from the photo
+        const wheelbase = 12; // Distance between front/rear axles
+        const trackWidth = 8;  // Distance between wheels
+        const servoArmLength = 2;
+        const linkageLength = 4;
+        const steeringArmLength = 1.5;
+
+        function init() {
+            // Scene setup
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x1a1a2e);
+            
+            // Camera
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(10, 8, 10);
+            camera.lookAt(0, 0, 0);
+            
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            document.getElementById('container').appendChild(renderer.domElement);
+            
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.7);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.9);
+            directionalLight.position.set(8, 10, 6);
+            directionalLight.castShadow = true;
+            directionalLight.shadow.mapSize.width = 2048;
+            directionalLight.shadow.mapSize.height = 2048;
+            scene.add(directionalLight);
+            
+            const pointLight = new THREE.PointLight(0x00d4ff, 0.4);
+            pointLight.position.set(0, 6, 0);
+            scene.add(pointLight);
+            
+            // Create the exact steering mechanism
+            createExactSteeringMechanism();
+            
+            // Mouse controls
+            setupMouseControls();
+            
+            // Ground
+            const groundGeometry = new THREE.PlaneGeometry(25, 25);
+            const groundMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0x2a2a3e, 
+                transparent: true, 
+                opacity: 0.6 
+            });
+            const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+            ground.rotation.x = -Math.PI / 2;
+            ground.position.y = -1.5;
+            ground.receiveShadow = true;
+            scene.add(ground);
+            
+            animate();
+        }
+        
+        function createExactSteeringMechanism() {
+            steeringAssembly = new THREE.Group();
+            
+            // Chassis baseplate (black perforated plate from photo)
+            const chassisGeometry = new THREE.BoxGeometry(10, 0.3, 6);
+            const chassisMaterial = new THREE.MeshPhongMaterial({ color: 0x1a1a1a });
+            const chassis = new THREE.Mesh(chassisGeometry, chassisMaterial);
+            chassis.castShadow = true;
+            chassis.receiveShadow = true;
+            steeringAssembly.add(chassis);
+            
+            // Add mounting holes to chassis
+            for (let x = -3.5; x <= 3.5; x += 1.5) {
+                for (let z = -2; z <= 2; z += 1) {
+                    const holeGeometry = new THREE.CylinderGeometry(0.1, 0.1, 0.4);
+                    const hole = new THREE.Mesh(holeGeometry, new THREE.MeshPhongMaterial({ color: 0x000000 }));
+                    hole.position.set(x, 0.1, z);
+                    steeringAssembly.add(hole);
+                }
+            }
+            
+            // LD-1501MG Servo motor (black rectangular servo from photo)
+            const servoBodyGeometry = new THREE.BoxGeometry(2, 1.5, 1);
+            const servoMaterial = new THREE.MeshPhongMaterial({ color: 0x0a0a0a });
+            servo = new THREE.Mesh(servoBodyGeometry, servoMaterial);
+            servo.position.set(0, 0.9, 0);
+            servo.castShadow = true;
+            steeringAssembly.add(servo);
+            
+            // Servo horn/arm (white plastic arm from photo)
+            const servoArmGeometry = new THREE.BoxGeometry(0.2, 0.1, servoArmLength);
+            const servoArmMaterial = new THREE.MeshPhongMaterial({ color: 0xf0f0f0 });
+            servoArm = new THREE.Mesh(servoArmGeometry, servoArmMaterial);
+            servoArm.position.set(0, 1.7, servoArmLength/2);
+            servoArm.castShadow = true;
+            steeringAssembly.add(servoArm);
+            
+            // Center linkage rod (connects servo to steering linkage)
+            const centerLinkGeometry = new THREE.CylinderGeometry(0.05, 0.05, 2);
+            const rodMaterial = new THREE.MeshPhongMaterial({ color: 0x888888 });
+            centerLink = new THREE.Mesh(centerLinkGeometry, rodMaterial);
+            centerLink.position.set(0, 1.7, 2.5);
+            centerLink.rotation.x = Math.PI / 2;
+            centerLink.castShadow = true;
+            steeringAssembly.add(centerLink);
+            
+            // Create wheels with exact appearance
+            createExactWheel('left');
+            createExactWheel('right');
+            
+            // Create steering linkage system
+            createSteeringLinkage();
+            
+            scene.add(steeringAssembly);
+        }
+        
+        function createExactWheel(side) {
+            const wheelAssembly = new THREE.Group();
+            
+            // Tire (black with tread pattern like in photo)
+            const tireGeometry = new THREE.CylinderGeometry(1.2, 1.2, 0.8);
+            const tireMaterial = new THREE.MeshPhongMaterial({ color: 0x1a1a1a });
+            const tire = new THREE.Mesh(tireGeometry, tireMaterial);
+            tire.rotation.z = Math.PI / 2;
+            tire.castShadow = true;
+            
+            // Tread pattern
+            const treadCount = 16;
+            for (let i = 0; i < treadCount; i++) {
+                const angle = (i / treadCount) * Math.PI * 2;
+                const treadGeometry = new THREE.BoxGeometry(0.05, 0.1, 0.6);
+                const tread = new THREE.Mesh(treadGeometry, tireMaterial);
+                tread.position.set(Math.cos(angle) * 1.15, Math.sin(angle) * 1.15, 0);
+                tread.rotation.z = angle;
+                tire.add(tread);
+            }
+            
+            // Rim (like the red rim visible in photo)
+            const rimGeometry = new THREE.CylinderGeometry(0.9, 0.9, 0.3);
+            const rimMaterial = new THREE.MeshPhongMaterial({ color: side === 'left' ? 0xcc3333 : 0x666666 });
+            const rim = new THREE.Mesh(rimGeometry, rimMaterial);
+            rim.rotation.z = Math.PI / 2;
+            tire.add(rim);
+            
+            // Hub
+            const hubGeometry = new THREE.CylinderGeometry(0.3, 0.3, 0.4);
+            const hubMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 });
+            const hub = new THREE.Mesh(hubGeometry, hubMaterial);
+            hub.rotation.z = Math.PI / 2;
+            tire.add(hub);
+            
+            wheelAssembly.add(tire);
+            
+            // Steering knuckle (vertical mounting piece)
+            const knuckleGeometry = new THREE.BoxGeometry(0.3, 1.5, 0.3);
+            const knuckleMaterial = new THREE.MeshPhongMaterial({ color: 0x666666 });
+            const knuckle = new THREE.Mesh(knuckleGeometry, knuckleMaterial);
+            knuckle.position.y = 1;
+            knuckle.castShadow = true;
+            wheelAssembly.add(knuckle);
+            
+            // Steering arm (horizontal piece for linkage connection)
+            const steeringArmGeometry = new THREE.BoxGeometry(steeringArmLength, 0.2, 0.2);
+            const steeringArm = new THREE.Mesh(steeringArmGeometry, knuckleMaterial);
+            steeringArm.position.set(side === 'left' ? steeringArmLength/2 : -steeringArmLength/2, 1.5, 0);
+            steeringArm.castShadow = true;
+            wheelAssembly.add(steeringArm);
+            
+            // Position wheel assembly
+            const x = side === 'left' ? -trackWidth/2 : trackWidth/2;
+            wheelAssembly.position.set(x, 0, 3);
+            
+            if (side === 'left') {
+                leftWheel = wheelAssembly;
+                leftSteering = steeringArm;
+            } else {
+                rightWheel = wheelAssembly;
+                rightSteering = steeringArm;
+            }
+            
+            steeringAssembly.add(wheelAssembly);
+        }
+        
+        function createSteeringLinkage() {
+            // Left linkage rod
+            const linkageGeometry = new THREE.CylinderGeometry(0.04, 0.04, linkageLength);
+            const rodMaterial = new THREE.MeshPhongMaterial({ color: 0x888888 });
+            
+            leftLinkage = new THREE.Mesh(linkageGeometry, rodMaterial);
+            leftLinkage.castShadow = true;
+            steeringAssembly.add(leftLinkage);
+            
+            // Right linkage rod
+            rightLinkage = new THREE.Mesh(linkageGeometry, rodMaterial);
+            rightLinkage.castShadow = true;
+            steeringAssembly.add(rightLinkage);
+            
+            updateLinkage();
+        }
+        
+        function updateLinkage() {
+            if (!leftLinkage || !rightLinkage) return;
+            
+            // Center point (end of servo arm)
+            const centerX = Math.sin(currentServoAngle * Math.PI / 180) * servoArmLength;
+            const centerY = 1.7;
+            const centerZ = Math.cos(currentServoAngle * Math.PI / 180) * servoArmLength + 1;
+            
+            // Left wheel connection point
+            const leftX = -trackWidth/2 + Math.cos(leftWheel.rotation.y) * steeringArmLength;
+            const leftY = 1.5;
+            const leftZ = 3 + Math.sin(leftWheel.rotation.y) * steeringArmLength;
+            
+            // Right wheel connection point  
+            const rightX = trackWidth/2 - Math.cos(rightWheel.rotation.y) * steeringArmLength;
+            const rightY = 1.5;
+            const rightZ = 3 + Math.sin(rightWheel.rotation.y) * steeringArmLength;
+            
+            // Position and orient left linkage
+            leftLinkage.position.set((centerX + leftX) / 2, (centerY + leftY) / 2, (centerZ + leftZ) / 2);
+            const leftDistance = Math.sqrt(
+                Math.pow(leftX - centerX, 2) + 
+                Math.pow(leftY - centerY, 2) + 
+                Math.pow(leftZ - centerZ, 2)
+            );
+            leftLinkage.scale.y = leftDistance / linkageLength;
+            
+            const leftAngleY = Math.atan2(leftX - centerX, leftZ - centerZ);
+            const leftAngleX = Math.atan2(leftY - centerY, Math.sqrt(Math.pow(leftX - centerX, 2) + Math.pow(leftZ - centerZ, 2)));
+            leftLinkage.rotation.set(leftAngleX, leftAngleY, 0);
+            
+            // Position and orient right linkage
+            rightLinkage.position.set((centerX + rightX) / 2, (centerY + rightY) / 2, (centerZ + rightZ) / 2);
+            const rightDistance = Math.sqrt(
+                Math.pow(rightX - centerX, 2) + 
+                Math.pow(rightY - centerY, 2) + 
+                Math.pow(rightZ - centerZ, 2)
+            );
+            rightLinkage.scale.y = rightDistance / linkageLength;
+            
+            const rightAngleY = Math.atan2(rightX - centerX, rightZ - centerZ);
+            const rightAngleX = Math.atan2(rightY - centerY, Math.sqrt(Math.pow(rightX - centerX, 2) + Math.pow(rightZ - centerZ, 2)));
+            rightLinkage.rotation.set(rightAngleX, rightAngleY, 0);
+        }
+        
+        function updateSteering(angle) {
+            currentServoAngle = parseFloat(angle);
+            
+            // Update servo arm position
+            if (servoArm) {
+                servoArm.rotation.y = currentServoAngle * Math.PI / 180;
+                servoArm.position.x = Math.sin(currentServoAngle * Math.PI / 180) * servoArmLength / 2;
+                servoArm.position.z = Math.cos(currentServoAngle * Math.PI / 180) * servoArmLength / 2 + servoArmLength / 2;
+            }
+            
+            // Calculate wheel angles using simplified Ackermann approximation
+            const servoRadians = currentServoAngle * Math.PI / 180;
+            const leftAngle = servoRadians * 0.8;  // Left wheel follows servo with slight reduction
+            const rightAngle = servoRadians * 0.8; // Right wheel mirrors but with Ackermann correction
+            
+            // Apply Ackermann correction
+            if (Math.abs(currentServoAngle) > 5) {
+                if (currentServoAngle > 0) { // Turning right
+                    rightWheel.rotation.y = rightAngle * 1.2; // Inner wheel turns more
+                    leftWheel.rotation.y = leftAngle * 0.8;   // Outer wheel turns less
+                } else { // Turning left
+                    leftWheel.rotation.y = leftAngle * 1.2;   // Inner wheel turns more
+                    rightWheel.rotation.y = rightAngle * 0.8; // Outer wheel turns less
+                }
+            } else {
+                leftWheel.rotation.y = leftAngle;
+                rightWheel.rotation.y = rightAngle;
+            }
+            
+            updateLinkage();
+            
+            // Update UI
+            document.getElementById('steeringValue').textContent = `Servo: ${currentServoAngle}°`;
+            document.getElementById('servoAngle').textContent = `${currentServoAngle}°`;
+            document.getElementById('leftAngle').textContent = `${(leftWheel.rotation.y * 180 / Math.PI).toFixed(1)}°`;
+            document.getElementById('rightAngle').textContent = `${(rightWheel.rotation.y * 180 / Math.PI).toFixed(1)}°`;
+        }
+        
+        function steerLeft() {
+            animateSteeringTo(-35, 1000);
+        }
+        
+        function steerRight() {
+            animateSteeringTo(35, 1000);
+        }
+        
+        function straighten() {
+            animateSteeringTo(0, 800);
+        }
+        
+        function animateSteeringTo(targetAngle, duration) {
+            const startAngle = currentServoAngle;
+            const startTime = Date.now();
+            
+            function animate() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeProgress = 0.5 * (1 - Math.cos(progress * Math.PI));
+                
+                const currentAngle = startAngle + (targetAngle - startAngle) * easeProgress;
+                
+                updateSteering(currentAngle);
+                document.getElementById('steeringSlider').value = currentAngle;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                }
+            }
+            
+            animate();
+        }
+        
+        function toggleAutoSteering() {
+            autoSteering = !autoSteering;
+            const btn = document.getElementById('autoBtn');
+            btn.textContent = autoSteering ? 'Stop Demo' : 'Auto Demo';
+            btn.classList.toggle('active');
+        }
+        
+        function setupMouseControls() {
+            let mouseX = 0, mouseY = 0;
+            let isMouseDown = false;
+            
+            renderer.domElement.addEventListener('mousedown', (event) => {
+                isMouseDown = true;
+                mouseX = event.clientX;
+                mouseY = event.clientY;
+            });
+            
+            renderer.domElement.addEventListener('mouseup', () => {
+                isMouseDown = false;
+            });
+            
+            renderer.domElement.addEventListener('mousemove', (event) => {
+                if (isMouseDown) {
+                    const deltaX = event.clientX - mouseX;
+                    const deltaY = event.clientY - mouseY;
+                    
+                    steeringAssembly.rotation.y += deltaX * 0.01;
+                    steeringAssembly.rotation.x += deltaY * 0.01;
+                    
+                    mouseX = event.clientX;
+                    mouseY = event.clientY;
+                }
+            });
+            
+            renderer.domElement.addEventListener('wheel', (event) => {
+                const delta = event.deltaY > 0 ? 1.1 : 0.9;
+                camera.position.multiplyScalar(delta);
+                event.preventDefault();
+            });
+        }
+        
+        function resetView() {
+            camera.position.set(10, 8, 10);
+            camera.lookAt(0, 0, 0);
+            steeringAssembly.rotation.set(0, 0, 0);
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Auto steering demonstration
+            if (autoSteering) {
+                const time = Date.now() * 0.0008;
+                const angle = Math.sin(time) * 35;
+                updateSteering(angle);
+                document.getElementById('steeringSlider').value = angle;
+            }
+            
+            // Wheel rolling animation
+            if (leftWheel && rightWheel) {
+                const rollSpeed = 0.03;
+                leftWheel.children[0].rotation.x += rollSpeed;
+                rightWheel.children[0].rotation.x += rollSpeed;
+            }
+            
+            renderer.render(scene, camera);
+        }
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+        
+        // Initialize
+        init();
+    </script>
+</body>
+</html>

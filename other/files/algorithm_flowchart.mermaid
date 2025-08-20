@@ -1,0 +1,45 @@
+flowchart TD
+    A([Start]) --> B[Initialize System]
+    B --> C[Read Ultrasonic Sensors<br/>d_left, d_right]
+    C --> D{d_right less than 20cm?}
+    
+    D -->|Yes| E[Apply P Controller<br/>u = Kp * 20 - d_right<br/>Move away from right wall]
+    D -->|No| F{d_left less than 20cm?}
+    
+    E --> G[Execute Control Signal]
+    F -->|Yes| H[Apply P Controller<br/>u = -Kp * 20 - d_left<br/>Move away from left wall]
+    F -->|No| I[Apply PD Controller<br/>Track MPU Reference<br/>u = Kp*e + Kd*de/dt]
+    
+    H --> G
+    I --> G
+    G --> J[Update Robot Position]
+    J --> K{d_left greater than 120cm OR<br/>d_right greater than 120cm?}
+    
+    K -->|No| L{Both walls<br/>clear?}
+    K -->|Yes| M{Which sensor<br/>detected opening?}
+    
+    L -->|Yes| I
+    L -->|No| C
+    
+    M -->|Left| N[Turn Left CCW<br/>until theta = theta_ref + 70 degrees]
+    M -->|Right| O[Turn Right CW<br/>until theta = theta_ref - 70 degrees]
+    
+    N --> P[Update Reference<br/>theta_ref = theta_ref + 90 degrees]
+    O --> Q[Update Reference<br/>theta_ref = theta_ref - 90 degrees]
+    
+    P --> R[Increment Turn Counter]
+    Q --> R
+    R --> S{Completed<br/>3 laps?}
+    
+    S -->|No| C
+    S -->|Yes| T([End])
+    
+    classDef startEnd fill:#e1f5fe,stroke:#01579b,stroke-width:3px
+    classDef process fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef decision fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef control fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    
+    class A,T startEnd
+    class B,C,G,J,R process
+    class D,F,K,L,M,S decision
+    class E,H,I,N,O,P,Q control
